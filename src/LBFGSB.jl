@@ -1,6 +1,6 @@
 module LBFGSB
 
-using L_BFGS_B_jll
+using NLPModels, L_BFGS_B_jll
 
 include("subroutine.jl")
 export setulb, timer

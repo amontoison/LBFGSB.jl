@@ -148,3 +148,11 @@ function lbfgsb(f,x0;m=10,lb=[-Inf for i in x0],ub=[Inf for i in x0],kwargs...)
     
     optimizer(f,x0,bounds;m=m,kwargs...)
 end
+
+function lbfgsb(nlp; m=20, kwargs...)
+    optimizer, bounds = _opt_bounds(nlp.meta.nvar, m, nlp.meta.lvar, nlp.meta.uvar)
+    @inline f(x) = obj(nlp, x)
+    @inline g!(z, x) = grad!(nlp, x, z)
+    fout, xout = optimizer(f, g!, nlp.meta.x0, bounds; m=m, kwargs...)
+    return fout, xout
+end
